@@ -46,14 +46,3 @@ For guidance and in-depth understanding, refer to *The Linux Programming Interfa
 
 - **pipex/**: Contains the source code of the Pipex project.
 - **pipex_Tests/**: Contains unit tests for the project. For complete end-to-end testing, visit the [Pipex-Tests GitHub repository](https://github.com/AzzaouiAlae/Pipex-Tests).
-
-## Compilation
-
-To compile the project, run:
-
-```bash
-make
-```
-
-This command builds the project according to the provided Makefile.
-
