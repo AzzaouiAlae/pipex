@@ -1,7 +1,3 @@
-Below is an improved version of your README in Markdown. I've incorporated clearer sections, fixed grammar, and added details on usage, testing, and references to help users understand and work with your project.
-
----
-
 # Pipex
 
 **Pipex** is a project from the 1337 School_42 Network cursus designed to replicate the behavior of the shell's pipe operator. This project allows you to chain commands so that the output of one command becomes the input of another.
