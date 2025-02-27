@@ -6,11 +6,22 @@
 /*   By: aazzaoui <aazzaoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:42:28 by aazzaoui          #+#    #+#             */
-/*   Updated: 2025/02/02 18:38:56 by aazzaoui         ###   ########.fr       */
+/*   Updated: 2025/02/23 00:03:03 by aazzaoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+
+int	is_sep(char *sep, char *special_sep, char ch, char cur_sep)
+{
+	if(!ch)
+		return (0);
+	if (!cur_sep && ft_strchr(sep, ch))
+		return (1);
+	if (cur_sep && ch == cur_sep)
+		return (1);
+	return (0);
+}
 
 static int	count_words(const char *s, char *sep, char *special_sep)
 {
@@ -23,8 +34,7 @@ static int	count_words(const char *s, char *sep, char *special_sep)
 	cur_sep = '\0';
 	while (s[i])
 	{
-		while (s[i] && ((ft_strchr(sep, s[i]) && !cur_sep) || (cur_sep
-					&& s[i] == cur_sep)))
+		while (is_sep(sep, special_sep, s[i], cur_sep))
 		{
 			if (cur_sep == s[i])
 				cur_sep = '\0';
@@ -34,8 +44,7 @@ static int	count_words(const char *s, char *sep, char *special_sep)
 		}
 		if (s[i])
 			count++;
-		while (s[i] && ((cur_sep && s[i] != cur_sep) || (!ft_strchr(sep, s[i])
-					&& !cur_sep)))
+		while (s[i] && !is_sep(sep, special_sep, s[i], cur_sep))
 			i++;
 	}
 	return (count);
@@ -48,16 +57,14 @@ static char	*create_word(char *s, char *sep, char *special_sep, int *j)
 	char	cur_sep;
 
 	cur_sep = '\0';
-	while (s[(*j)] && ((ft_strchr(sep, s[(*j)]) && !cur_sep) || (cur_sep
-				&& s[(*j)] == cur_sep)))
+	while (is_sep(sep, special_sep, s[*j], cur_sep))
 	{
 		if (ft_strchr(special_sep, s[(*j)]))
 			cur_sep = s[(*j)];
 		(*j)++;
 	}
 	i = *j;
-	while (s[i] && ((cur_sep && s[i] != cur_sep) || (!ft_strchr(sep, s[i])
-				&& !cur_sep)))
+	while (s[i] && !is_sep(sep, special_sep, s[i], cur_sep))
 		i++;
 	str = ft_substr(s, *j, i - *j);
 	*j = i;

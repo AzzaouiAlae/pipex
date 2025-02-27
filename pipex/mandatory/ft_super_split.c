@@ -12,6 +12,17 @@
 
 #include "pipex.h"
 
+int	is_sep(char *sep, char *special_sep, char ch, char cur_sep)
+{
+	if(!ch)
+		return (0);
+	if (!cur_sep && ft_strchr(sep, ch))
+		return (1);
+	if (cur_sep && ch == cur_sep)
+		return (1);
+	return (0);
+}
+
 static int	count_words(const char *s, char *sep, char *special_sep)
 {
 	int		i;
@@ -23,8 +34,7 @@ static int	count_words(const char *s, char *sep, char *special_sep)
 	cur_sep = '\0';
 	while (s[i])
 	{
-		while (s[i] && ((ft_strchr(sep, s[i]) && !cur_sep) || (cur_sep
-					&& s[i] == cur_sep)))
+		while (is_sep(sep, special_sep, s[i], cur_sep))
 		{
 			if (cur_sep == s[i])
 				cur_sep = '\0';
@@ -34,8 +44,7 @@ static int	count_words(const char *s, char *sep, char *special_sep)
 		}
 		if (s[i])
 			count++;
-		while (s[i] && ((cur_sep && s[i] != cur_sep) || (!ft_strchr(sep, s[i])
-					&& !cur_sep)))
+		while (s[i] && !is_sep(sep, special_sep, s[i], cur_sep))
 			i++;
 	}
 	return (count);
@@ -48,16 +57,14 @@ static char	*create_word(char *s, char *sep, char *special_sep, int *j)
 	char	cur_sep;
 
 	cur_sep = '\0';
-	while (s[(*j)] && ((ft_strchr(sep, s[(*j)]) && !cur_sep) || (cur_sep
-				&& s[(*j)] == cur_sep)))
+	while (is_sep(sep, special_sep, s[*j], cur_sep))
 	{
 		if (ft_strchr(special_sep, s[(*j)]))
 			cur_sep = s[(*j)];
 		(*j)++;
 	}
 	i = *j;
-	while (s[i] && ((cur_sep && s[i] != cur_sep) || (!ft_strchr(sep, s[i])
-				&& !cur_sep)))
+	while (s[i] && !is_sep(sep, special_sep, s[i], cur_sep))
 		i++;
 	str = ft_substr(s, *j, i - *j);
 	*j = i;
